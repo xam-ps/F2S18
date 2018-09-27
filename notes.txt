@@ -1,0 +1,13 @@
+1) ECU_Temperature:
+  - Make a box plot visualization to detect the outliers.
+  - The outliers should be selectable to display information like:
+    - Vechile No
+    - Other abnormal parameters
+
+  - Show a density plot of the ECU_Temperature of all the vehicles
+    - Areas should be selectable
+    - The points should be colour coded according their distribution.
+    - Selecting outliers should show what is the difference between the normal parameters
+      probably in a histogram.
+        - Normal mean speed vs abnormal mean speed
+        - etc
