@@ -58,7 +58,7 @@ def get_alert_table(ecu_temperature_gadget, start = None, end = None):
         figure = {
             'data': [
                 {
-                    'header': dict(values=df.columns),
+                    'header': dict(values=df.columns, fill = dict( color = 'rgb(238,238,238)' )),
                     'cells': dict(values=[df.timestamp, df.ECU_Temperature, df.Vehicle_Number]),
                     'type': 'table'
                 }
