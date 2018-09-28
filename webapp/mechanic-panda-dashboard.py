@@ -24,7 +24,8 @@ app.layout = html.Div([
         min_date_allowed=ecu_temperature_gadget.start,
         max_date_allowed=ecu_temperature_gadget.end,
         initial_visible_month=ecu_temperature_gadget.start,
-        end_date=ecu_temperature_gadget.end
+        start_date_placeholder_text='Start',
+        end_date=ecu_temperature_gadget.start
     ),
     html.Div(id='output-container-start-date-picker-range'),
     dcc.DatePickerRange(
@@ -32,6 +33,7 @@ app.layout = html.Div([
         min_date_allowed=ecu_temperature_gadget.start,
         max_date_allowed=ecu_temperature_gadget.end,
         initial_visible_month=ecu_temperature_gadget.end,
+        start_date_placeholder_text='End',
         end_date=ecu_temperature_gadget.end
     ),
     html.Div(id='output-container-end-date-picker-range')
