@@ -5,8 +5,8 @@
     - Other abnormal parameters
 
   - Show a density plot of the ECU_Temperature of all the vehicles
-    - Areas should be selectable
-    - The points should be colour coded according their distribution.
+    - Areas should be selectable (can be replaced with sliders)
+    - The points should be colour coded according to their distribution.
     - Selecting outliers should show what is the difference between the normal parameters
       probably in a histogram.
         - Normal mean speed vs abnormal mean speed
