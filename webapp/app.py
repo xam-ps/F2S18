@@ -14,7 +14,7 @@ import ecu_html_components as ehc
 import turbo
 
 # load on start
-df = pd.read_csv("data/turbo.csv")
+df = pd.read_csv("data/turbo_small.csv")
 df['datetime'] = pd.to_datetime(df.datetime)
 
 
@@ -40,7 +40,7 @@ app.layout = html.Div(children=[
     html.Div([
         html.Img(src='static/mechPandaProfile.png',
                  height='40', width='40', className='accountPic'),
-        html.P('Adam Smith', className='accountName')
+        html.P('Mechanic Panda', className='accountName')
     ], className="account"),
 
     html.Div([
