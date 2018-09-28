@@ -14,7 +14,7 @@ import ecu_html_components as ehc
 import turbo
 
 # load on start
-df = pd.read_csv("data/turbo_small.csv")
+df = pd.read_csv("data/turbo.csv")
 df['datetime'] = pd.to_datetime(df.datetime)
 
 

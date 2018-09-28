@@ -77,3 +77,11 @@
     float: left;
     overflow: hidden;
 }
+
+.rc-slider-handle{
+    border: solid 2px #057855 !important;
+}
+
+.rc-slider-track{
+    background-color: #057855 !important;
+}
