@@ -1,15 +1,6 @@
 import dash_core_components as dcc
 
-def get_date_range_picker(ecu_temperature_gadget):
-    return dcc.DatePickerRange(
-        id='start-datetime',
-        min_date_allowed=ecu_temperature_gadget.start,
-        max_date_allowed=ecu_temperature_gadget.end,
-        initial_visible_month=ecu_temperature_gadget.start,
-        start_date=ecu_temperature_gadget.start,
-        end_date=ecu_temperature_gadget.end)
-
-def get_text_field(ecu_temperature_gadget, ele_placeholder, ele_id):
+def get_text_field(ecu_temperature_gadget, ele_id, ele_placeholder):
     return dcc.Input(
         id = ele_id,
         placeholder=ele_placeholder,

@@ -17,10 +17,6 @@ def get_dashboard_header():
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div([
     get_dashboard_header(),
-    html.P(children='Time Period'),
-    html.Div([
-        eh.get_date_range_picker(ecu_temperature_gadget)
-    ], style= {'width': '30%', 'display': 'inline-block'}),
     html.P(children='ECU Temperature Range'),
     html.Div([
         eh.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temperature (Min)'),
@@ -29,29 +25,42 @@ app.layout = html.Div([
     ], style= {'width': '10%', 'display': 'inline-block', 'margin-bottom': '10'}),
     html.Br(),
     html.Button('Filter', id='filter'),
-    eh.get_scatter_plot(ecu_temperature_gadget)
+    eh.get_scatter_plot(ecu_temperature_gadget),
+    html.Div(id='container'),
+    html.Div(dcc.Graph(id='empty', figure={'data': []}), style={'display': 'none'})
 ])
 
-'''
 @app.callback(
-    dash.dependencies.Output('output-container-date-picker-range', 'children'),
-    [dash.dependencies.Input('start-datetime', 'start_date'),
-     dash.dependencies.Input('end-datetime', 'end_date')])
-def update_output(start_date, end_date):
-    string_prefix = 'You have selected: '
-    if start_date is not None:
-        start_date = dt.strptime(start_date, '%Y-%m-%d')
-        start_date_string = start_date.strftime('%B %d, %Y')
-        string_prefix = string_prefix + 'Start Date: ' + start_date_string + ' | '
-    if end_date is not None:
-        end_date = dt.strptime(end_date, '%Y-%m-%d')
-        end_date_string = end_date.strftime('%B %d, %Y')
-        string_prefix = string_prefix + 'End Date: ' + end_date_string
-    if len(string_prefix) == len('You have selected: '):
-        return 'Select a date to see it displayed here'
-    else:
-        return string_prefix
-'''
+    dash.dependencies.Output('container', 'children'),
+    [dash.dependencies.Input('low', 'value'),
+     dash.dependencies.Input('high', 'value')])
+def update_output(low, high):
+    if low == '' or high == '':
+        return
+    df_out, df_norm = ecu_temperature_gadget.filter_data(int(low), int(high))
+    graph = dcc.Graph(
+            id='barviz',
+            figure={
+                'data': [{
+                    'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                    'y': [df_out['Vehicle_Speed'].median(), df_out['Engine_Speed'].median(),
+                            df_out['Fuel_Pressure'].mean(), df_out['Engine_Inlet_Temperture'].mean()],
+                    'type': 'bar', 'name' : 'Outlier ECU Temperature'
+                    },
+                    {
+                        'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                        'y': [df_norm['Vehicle_Speed'].median(), df_norm['Engine_Speed'].median(),
+                                df_norm['Fuel_Pressure'].mean(), df_norm['Engine_Inlet_Temperture'].mean()],
+                        'type': 'bar', 'name' : 'Normal ECU Temperature'
+                    }
+                ],
+                'layout': {
+                    'title': 'Outlier Parameters vs Normal Parameters',
+                    'barmode': 'group'
+                }
+            }
+        )
+    return html.Div(graph)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
