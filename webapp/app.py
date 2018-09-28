@@ -168,8 +168,19 @@ ecu = html.Div([
             ), className='search'),
     ], className='header'),
 
-    html.Div([html.P('ECU drilldown'),
+    html.Div([html.P('ECU History View'),
         # Put in ECU drilldown code here
+        html.P(children='ECU Temperature Range'),
+        html.Div([
+            ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temperature (Min)'),
+            html.Br(),
+            ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temperature (Max)'),
+        ], style= {'width': '10%', 'display': 'inline-block', 'margin-bottom': '10'}),
+        html.Br(),
+        html.Button('Filter', id='filter'),
+        ehc.get_scatter_plot(ecu_temperature_gadget),
+        html.Div(id='container'),
+        html.Div(dcc.Graph(id='empty', figure={'data': []}), style={'display': 'none'})
     ], className='main'),
 ])
 
