@@ -50,15 +50,17 @@ class EcuTemperatureGadget():
                 (self.df_agg_740.ECU_Temperature > self.high)]
 
     def filter_data_based_on_timestamp(self):
-            return self.df_agg_740[(self.df_agg_740.timestamp >= self.start) &
-                (self.df_agg_740.ECU_Temperature <= self.end)]
+        print(type(self.start))
+        print(type(self.df_agg_740.timestamp))
+        return self.df_agg_740[(self.df_agg_740.timestamp >= self.start) &
+                (self.df_agg_740.timestamp <= self.end)]
 
     def other_interval_timestamp(self):
         return self.df_agg_740[(self.df_agg_740.timestamp < self.start) |
                 (self.df_agg_740.timestamp > self.end)]
 
     def get_vehicle_percentage_above_normal_for_time_window(self, start, end):
-        normal = 90
+        normal = 94
         self.start = start
         self.end = end
         df = self.filter_data_based_on_timestamp()
@@ -68,9 +70,9 @@ class EcuTemperatureGadget():
         return (percentage_above_normal, percentage_normal)
 
     def get_vehicle_details_above_normal_for_time_window(self, start, end):
-        normal = 90
+        normal = 94
         self.start = start
         self.end = end
         df = self.filter_data_based_on_timestamp()
         df = df[df.ECU_Temperature > normal]
-        return df[['Vehicle_Number', 'timestamp', 'ECU_Temperature']]
+        return df[['timestamp','ECU_Temperature','Vehicle_Number']]

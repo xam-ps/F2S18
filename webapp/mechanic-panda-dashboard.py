@@ -26,6 +26,8 @@ app.layout = html.Div([
     html.Br(),
     html.Button('Filter', id='filter'),
     eh.get_scatter_plot(ecu_temperature_gadget),
+    eh.get_pie_chart(ecu_temperature_gadget),
+    eh.get_alert_table(ecu_temperature_gadget),
     html.Div(id='container'),
     html.Div(dcc.Graph(id='empty', figure={'data': []}), style={'display': 'none'})
 ])
