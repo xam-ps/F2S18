@@ -16,7 +16,7 @@ class EcuTemperatureGadget():
         print(f'ECU_Temperature range: {self.low} - {self.high}')
 
     def load_aggregated_data_740(self):
-        files = [f'data{os.sep}{d}' for d in os.listdir('data') if '.csv' in d]
+        files = [f'data{os.sep}{d}' for d in os.listdir('data') if '.csv' in d and not 'turbo' in d]
         print(f'Loading Aggregated file: {files[0]}')
         df_agg_740 = pd.read_csv(files[0])
         df_agg_714 = pd.read_csv(files[1])
