@@ -35,7 +35,7 @@ def get_pie_chart(ecu_temperature_gadget, start = None, end = None):
         figure = {
             'data' : [
                 {
-                    'labels': ['Abnormal ECU Temperature', 'Normal ECU Temperature'],
+                    'labels': ['Abnormal ECU Temp.', 'Normal ECU Temp.'],
                     'values': [above_normal, normal],
                     'type': 'pie'
                 }

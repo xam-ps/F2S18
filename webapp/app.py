@@ -8,6 +8,15 @@ import os
 # ECU Gadget imports begin
 import ecu_gadget as ec
 import ecu_html_components as ehc
+
+# Turbo related
+import turbo
+
+# load on start
+df = pd.read_csv("data/turbo.csv")
+df['datetime'] = pd.to_datetime(df.datetime)
+
+
 # ECU Gadget imports end
 external_stylesheets = ['static/style.css']
 
@@ -49,7 +58,12 @@ app.layout = html.Div(children=[
                 },
                 value=[-5, 0]
             )], className='slider'),
-        html.Div(children='Search', className='search'),
+        html.Div(
+            dcc.Input(
+                placeholder='Search (VIN, Brand, etc.)',
+                type='text',
+                value=''
+            ), className='search'),
     ], className='header'),
 
     html.Div([
@@ -61,20 +75,8 @@ app.layout = html.Div(children=[
         html.Div([
             html.Div(
                 # Replace this one for the upper sidebar widget
-                dcc.Graph(
-                    id='example2-graph',
-                    figure={
-                        'data': [
-                            {'x': [1, 2, 3], 'y': [4, 1, 2],
-                             'type': 'bar', 'name': 'SF'},
-                            {'x': [1, 2, 3], 'y': [2, 4, 5],
-                             'type': 'bar', 'name': u'Montréal'},
-                        ],
-                        'layout': {
-                            'title': 'Dash Data Visualization'
-                        }
-                    }
-                ), className='upper'),
+                turbo.get_turbo_alerts(df),
+                className='upper'),
             html.Div(
                 # Replace this one for the lower sidebar widget
                 dcc.Graph(
