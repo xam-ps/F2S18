@@ -41,9 +41,11 @@ def get_pie_chart(ecu_temperature_gadget, start = None, end = None):
                 }
             ],
             'layout': {
-                'title': 'Fleet ECU Temperature Monitor'
+                'title': 'Fleet ECU Temperature Monitor',
+                'legend': dict(orientation="h")
             }
-        }
+        },
+        style={'width': '350', 'height': '350'}
     )
 
 def get_alert_table(ecu_temperature_gadget, start = None, end = None):
