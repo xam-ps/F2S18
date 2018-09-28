@@ -17,13 +17,19 @@ def get_dashboard_header():
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div([
     get_dashboard_header(),
+    html.P(children='Time Period'),
     html.Div([
-        eh.get_start_date_picker(ecu_temperature_gadget),
-        eh.get_end_date_picker(ecu_temperature_gadget)
-    ], style= {'width': '40%', 'display': 'inline-block'}),
-    html.H3(children='ECU_Temperature Range'),
-    eh.get_range_slider(ecu_temperature_gadget),
-    html.Div(id='output-container-range-slider')
+        eh.get_date_range_picker(ecu_temperature_gadget)
+    ], style= {'width': '30%', 'display': 'inline-block'}),
+    html.P(children='ECU Temperature Range'),
+    html.Div([
+        eh.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temperature (Min)'),
+        html.Br(),
+        eh.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temperature (Max)'),
+    ], style= {'width': '10%', 'display': 'inline-block', 'margin-bottom': '10'}),
+    html.Br(),
+    html.Button('Filter', id='filter'),
+    eh.get_scatter_plot(ecu_temperature_gadget)
 ])
 
 '''

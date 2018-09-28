@@ -30,14 +30,16 @@ class EcuTemperatureGadget():
     def convert_string_to_datetime64(self, date_string):
         return pd.to_datetime(date_string)
 
-    def filter_data(start, end, low, high):
-        self.start = convert_string_to_datetime64(start)
-        self.end = convert_string_to_datetime64(end)
+    def filter_data(self, start, end, low, high, convert = False):
+        print(f'Filter range, Date: {start} : {end}')
+        print(f'Filter range, Temp: {low} : {high}')
+        self.start = self.convert_string_to_datetime64(start) if convert else start
+        self.end = self.convert_string_to_datetime64(end) if convert else end
         self.low = low
         self.high = high
-        return (filter_data_based_on_timestamp_and_ecu_temperature(), filter_data_based_on_timestamp_and_ecu_temperature(True))
+        return (self.filter_data_based_on_timestamp_and_ecu_temperature(), self.filter_data_based_on_timestamp_and_ecu_temperature(True))
 
-    def filter_data_based_on_timestamp_and_ecu_temperature(reverse = False):
+    def filter_data_based_on_timestamp_and_ecu_temperature(self, reverse = False):
         if not reverse:
             return self.df_agg_740[(self.df_agg_740.timestamp >= self.start) &
                 (self.df_agg_740.timestamp <= self.end) & (self.df_agg_740.ECU_Temperature >= self.low) &

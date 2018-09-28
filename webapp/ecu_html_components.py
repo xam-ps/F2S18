@@ -1,28 +1,34 @@
 import dash_core_components as dcc
 
-def get_start_date_picker(ecu_temperature_gadget):
+def get_date_range_picker(ecu_temperature_gadget):
     return dcc.DatePickerRange(
         id='start-datetime',
         min_date_allowed=ecu_temperature_gadget.start,
         max_date_allowed=ecu_temperature_gadget.end,
         initial_visible_month=ecu_temperature_gadget.start,
-        start_date_placeholder_text='Start',
-        end_date=ecu_temperature_gadget.start)
-
-def get_end_date_picker(ecu_temperature_gadget):
-    return dcc.DatePickerRange(
-        id='end-datetime',
-        min_date_allowed=ecu_temperature_gadget.start,
-        max_date_allowed=ecu_temperature_gadget.end,
-        initial_visible_month=ecu_temperature_gadget.end,
-        start_date_placeholder_text='End',
+        start_date=ecu_temperature_gadget.start,
         end_date=ecu_temperature_gadget.end)
 
-def get_range_slider(ecu_temperature_gadget):
-    return dcc.RangeSlider(
-        id='range-slider',
-        marks={i: '{}'.format(i) for i in range(int(ecu_temperature_gadget.low), int(ecu_temperature_gadget.high + 1))},
-        min=ecu_temperature_gadget.low,
-        max=ecu_temperature_gadget.high,
-        step=0.5,
-        value=[ecu_temperature_gadget.low, ecu_temperature_gadget.high])
+def get_text_field(ecu_temperature_gadget, ele_placeholder, ele_id):
+    return dcc.Input(
+        id = ele_id,
+        placeholder=ele_placeholder,
+        type='text',
+        value='')
+
+def get_scatter_plot(ecu_temperature_gadget, convert=False):
+    return dcc.Graph(
+        id='ecu_temperature_scatter_plot',
+        figure={
+            'data': [
+                {'x': ecu_temperature_gadget.df_agg_740.timestamp,
+                'y': ecu_temperature_gadget.df_agg_740.ECU_Temperature,
+                'type': 'scatter', 'name': 'ECU_Temperature',
+                'mode' : 'markers'}
+            ],
+            'layout': {
+                'title': 'ECU_Temperature vs Time'
+            }
+        },
+        style={'width': '1300', 'height' : '1200'}
+    )
