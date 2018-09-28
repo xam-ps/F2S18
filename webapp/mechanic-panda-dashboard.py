@@ -3,40 +3,27 @@ import dash
 import dash_html_components as html
 import dash_core_components as dcc
 import ecu_gadget
+import ecu_html_components as eh
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+ecu_temperature_gadget = ecu_gadget.EcuTemperatureGadget()
 
 def get_dashboard_header():
-    return html.H1(children='Mechanic Panda')
+    return html.Div([
+        html.H1('Mechanic Panda:  ', style={'color': 'firebrick', 'fontSize': 24, 'display': 'inline'}),
+        html.P('Visualizes your engine data.', style={'color': 'firebrick', 'fontSize': 18, 'display': 'inline'})
+    ], style= {'width': '40%', 'display': 'block'})
 
-def get_dashboard_description():
-    return html.Div(children='''
-        Visualizes your engine data.
-    ''')
-
-ecu_temperature_gadget = ecu_gadget.EcuTemperatureGadget()
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div([
     get_dashboard_header(),
-    get_dashboard_description(),
-    dcc.DatePickerRange(
-        id='start-datetime',
-        min_date_allowed=ecu_temperature_gadget.start,
-        max_date_allowed=ecu_temperature_gadget.end,
-        initial_visible_month=ecu_temperature_gadget.start,
-        start_date_placeholder_text='Start',
-        end_date=ecu_temperature_gadget.start
-    ),
-    html.Div(id='output-container-start-date-picker-range'),
-    dcc.DatePickerRange(
-        id='end-datetime',
-        min_date_allowed=ecu_temperature_gadget.start,
-        max_date_allowed=ecu_temperature_gadget.end,
-        initial_visible_month=ecu_temperature_gadget.end,
-        start_date_placeholder_text='End',
-        end_date=ecu_temperature_gadget.end
-    ),
-    html.Div(id='output-container-end-date-picker-range')
+    html.Div([
+        eh.get_start_date_picker(ecu_temperature_gadget),
+        eh.get_end_date_picker(ecu_temperature_gadget)
+    ], style= {'width': '40%', 'display': 'inline-block'}),
+    html.H3(children='ECU_Temperature Range'),
+    eh.get_range_slider(ecu_temperature_gadget),
+    html.Div(id='output-container-range-slider')
 ])
 
 '''
