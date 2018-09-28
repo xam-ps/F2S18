@@ -1,15 +1,6 @@
 import dash_core_components as dcc
 
-def get_date_range_picker(ecu_temperature_gadget):
-    return dcc.DatePickerRange(
-        id='start-datetime',
-        min_date_allowed=ecu_temperature_gadget.start,
-        max_date_allowed=ecu_temperature_gadget.end,
-        initial_visible_month=ecu_temperature_gadget.start,
-        start_date=ecu_temperature_gadget.start,
-        end_date=ecu_temperature_gadget.end)
-
-def get_text_field(ecu_temperature_gadget, ele_placeholder, ele_id):
+def get_text_field(ecu_temperature_gadget, ele_id, ele_placeholder):
     return dcc.Input(
         id = ele_id,
         placeholder=ele_placeholder,
@@ -31,4 +22,47 @@ def get_scatter_plot(ecu_temperature_gadget, convert=False):
             }
         },
         style={'width': '1300', 'height' : '1200'}
+    )
+
+def get_pie_chart(ecu_temperature_gadget, start = None, end = None):
+    if not start or not end:
+        start = ecu_temperature_gadget.start
+        end = ecu_temperature_gadget.end
+
+    above_normal, normal = ecu_temperature_gadget.get_vehicle_percentage_above_normal_for_time_window(start, end)
+    return dcc.Graph(
+        id = "ECU_Pie",
+        figure = {
+            'data' : [
+                {
+                    'labels': ['Abnormal ECU Temperature', 'Normal ECU Temperature'],
+                    'values': [above_normal, normal],
+                    'type': 'pie'
+                }
+            ],
+            'layout': {
+                'title': 'Fleet ECU Temperature Monitor'
+            }
+        }
+    )
+
+def get_alert_table(ecu_temperature_gadget, start = None, end = None):
+    if not start or not end:
+        start = ecu_temperature_gadget.start
+        end = ecu_temperature_gadget.end
+
+    df = ecu_temperature_gadget.get_vehicle_details_above_normal_for_time_window(start, end)
+    df = df.sort_values('ECU_Temperature', ascending = False)
+    return dcc.Graph(
+        id = "ECU_Alert",
+        figure = {
+            'data': [
+                {
+                    'header': dict(values=df.columns, fill = dict( color = 'rgb(238,238,238)' )),
+                    'cells': dict(values=[df.timestamp, df.ECU_Temperature, df.Vehicle_Number]),
+                    'type': 'table'
+                }
+            ],
+        },
+        style={'width': '700', 'height' : '400'}
     )
