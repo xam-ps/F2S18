@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import pandas as pd
 import flask
 import os
 
@@ -56,7 +57,7 @@ app.layout = html.Div(children=[
         html.Div([
             html.Div(
                 # Replace this one for the upper sidebar widget
-                turbo.get_turbo_alerts(df), 
+                turbo.get_turbo_alerts(df),
                 className='upper'),
             html.Div(
                 # Replace this one for the lower sidebar widget
