@@ -51,7 +51,41 @@ app.layout = html.Div(children=[
                     }
                 ), className='test'),
         ], className='charts'),
-        html.Div(children='Sidebar', className='sidebar'),
+        html.Div([
+            html.Div(
+                # Replace this one for the upper sidebar widget
+                dcc.Graph(
+                    id='example2-graph',
+                    figure={
+                        'data': [
+                            {'x': [1, 2, 3], 'y': [4, 1, 2],
+                             'type': 'bar', 'name': 'SF'},
+                            {'x': [1, 2, 3], 'y': [2, 4, 5],
+                             'type': 'bar', 'name': u'Montréal'},
+                        ],
+                        'layout': {
+                            'title': 'Dash Data Visualization'
+                        }
+                    }
+                ), className='upper'),
+            html.Div(
+                # Replace this one for the lower sidebar widget
+                dcc.Graph(
+                    id='example3-graph',
+                    figure={
+                        'data': [
+                            {'x': [1, 2, 3], 'y': [4, 1, 2],
+                             'type': 'bar', 'name': 'SF'},
+                            {'x': [1, 2, 3], 'y': [2, 4, 5],
+                             'type': 'bar', 'name': u'Montréal'},
+                        ],
+                        'layout': {
+                            'title': 'Dash Data Visualization'
+                        }
+                    }
+                )
+                , className='lower'),
+        ], className='sidebar'),
     ], className='main'),
 
     html.Div(children='''
