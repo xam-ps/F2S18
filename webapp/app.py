@@ -5,10 +5,10 @@ import dash_html_components as html
 import flask
 import os
 
-#ECU Gadget imports begin
+# ECU Gadget imports begin
 import ecu_gadget as ec
 import ecu_html_components as ehc
-#ECU Gadget imports end
+# ECU Gadget imports end
 external_stylesheets = ['static/style.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -55,7 +55,7 @@ app.layout = html.Div(children=[
     html.Div([
         html.Div([
             html.Div(
-                #need to pass the start and end from the slider callback
+                # need to pass the start and end from the slider callback
                 ehc.get_pie_chart(ecu_temperature_gadget), className='test'),
         ], className='charts'),
         html.Div([
