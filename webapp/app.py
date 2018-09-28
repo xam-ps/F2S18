@@ -29,7 +29,21 @@ app.layout = html.Div(children=[
     ], className="account"),
 
     html.Div([
-        html.Div(children='Slider', className='slider'),
+        html.Div([
+            html.P('Time Range'),
+            dcc.RangeSlider(
+                count=1,
+                min=-60,
+                max=0,
+                step=1.0,
+                marks={
+                    -60: '-60 Days',
+                    -40: '-40 Days',
+                    -20: '-20 Days',
+                    0: 'today'
+                },
+                value=[-5, 0]
+            )], className='slider'),
         html.Div(children='Search', className='search'),
     ], className='header'),
 
@@ -83,14 +97,10 @@ app.layout = html.Div(children=[
                             'title': 'Dash Data Visualization'
                         }
                     }
-                )
-                , className='lower'),
+                ), className='lower'),
         ], className='sidebar'),
     ], className='main'),
 
-    html.Div(children='''
-        Dash: A web application framework for Python.
-    '''),
 ])
 
 if __name__ == '__main__':
