@@ -86,7 +86,7 @@ def get_turbo_detail2(df):
 
     trace4=go.Scatter(x=df_critical.datetime, y=df_critical.pedal_position, yaxis='y4', name = "Pedal Position")
     trace5=go.Scatter(x=df_critical.datetime, y=df_critical.gear_engaged, fill='tozeroy',
-            opacity='0.01', line=dict(color='rgb(184, 187, 193)'), yaxis='y5', name = "Gear")
+            opacity=0.01, line=dict(color='rgb(184, 187, 193)'), yaxis='y5', name = "Gear")
 
 
     data=go.Data([trace2, trace3, trace4, trace5])
