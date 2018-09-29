@@ -177,9 +177,20 @@ ecu = html.Div([
             ), className='search'),
     ], className='header'),
 
-    html.Div([html.P('ECU drilldown'),
-              # Put in ECU drilldown code here
-              ], className='main'),
+    html.Div([html.P('ECU History View'),
+        # Put in ECU drilldown code here
+        html.P(children='ECU Temperature Range'),
+        html.Div([
+            ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temperature (Min)'),
+            html.Br(),
+            ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temperature (Max)'),
+        ], style= {'width': '10%', 'display': 'inline-block', 'margin-bottom': '10'}),
+        html.Br(),
+        html.Button('Filter', id='filter'),
+        ehc.get_scatter_plot(ecu_temperature_gadget),
+        html.Div(id='container'),
+        html.Div(dcc.Graph(id='empty', figure={'data': []}), style={'display': 'none'})
+    ], className='main'),
 ])
 
 
@@ -193,6 +204,37 @@ def display_page(pathname):
     else:
         return index_page
 
+@app.callback(
+    dash.dependencies.Output('container', 'children'),
+    [dash.dependencies.Input('low', 'value'),
+     dash.dependencies.Input('high', 'value')])
+def update_output(low, high):
+    if low == '' or high == '':
+        return
+    df_out, df_norm = ecu_temperature_gadget.filter_data(int(low), int(high))
+    graph = dcc.Graph(
+            id='barviz',
+            figure={
+                'data': [{
+                    'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                    'y': [df_out['Vehicle_Speed'].median(), df_out['Engine_Speed'].median(),
+                            df_out['Fuel_Pressure'].mean(), df_out['Engine_Inlet_Temperture'].mean()],
+                    'type': 'bar', 'name' : 'Outlier ECU Temperature'
+                    },
+                    {
+                        'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                        'y': [df_norm['Vehicle_Speed'].median(), df_norm['Engine_Speed'].median(),
+                                df_norm['Fuel_Pressure'].mean(), df_norm['Engine_Inlet_Temperture'].mean()],
+                        'type': 'bar', 'name' : 'Normal ECU Temperature'
+                    }
+                ],
+                'layout': {
+                    'title': 'Outlier Parameters vs Normal Parameters',
+                    'barmode': 'group'
+                }
+            }
+        )
+    return html.Div(graph)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
