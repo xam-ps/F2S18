@@ -19,8 +19,11 @@ df['datetime'] = pd.to_datetime(df.datetime)
 
 
 # ECU Gadget imports end
-external_stylesheets = ['static/style.css']
+external_stylesheets = ['static/style.css', "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+                    "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+for css in external_stylesheets:
+    app.css.append_css({"external_url": css})
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div([
@@ -74,24 +77,46 @@ index_page = html.Div(children=[
 
     html.Div([
         html.Div([
-            dcc.Link(
-                html.Div(
-                #need to pass the start and end from the slider callback
-                ehc.get_pie_chart(ecu_temperature_gadget),
-                className='test')
-                , href='/ecu'),
-        ], className='charts'),
+            html.Div([
+                dcc.Link(
+                    html.Div(
+                    #need to pass the start and end from the slider callback
+                    ehc.get_pie_chart(ecu_temperature_gadget))
+                    , href='/ecu'
+                )
+            ], style={'display':'inline'}),
+            html.Div([
+                ehc.get_pie_chart(ecu_temperature_gadget)
+            ], style={'display':'inline'})
+        ], className = "col-md-8"),
         html.Div([
-            html.Div(
-                # Replace this one for the upper sidebar widget
-                turbo.get_turbo_alerts(df),
-                className='upper'),
-            html.Div(
-                # Replace this one for the lower sidebar widget
-                ehc.get_alert_table(ecu_temperature_gadget),
-                className='lower'),
-        ], className='sidebar'),
-    ], className='main'),
+            #Add the relevant data here
+            html.Div([
+                html.Div([
+                    html.Small("ECU Temperature: 180 C ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-warning", style={'width': '70 %'})
+            ]),
+            html.Div([
+                html.Div([
+                    html.Small("ECU Temperature: 180 C ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'}),
+                html.Div([
+                    html.Small("ECU Temperature: 150 C ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-03 12:19:33 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-warning", style={'width': '70%'}),
+                html.Div([
+                    html.Small("ECU Temperature: 170 C ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-04 11:09:36 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138714", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'})
+            ]),
+        ], className='col-md-4'),
+    ], className="main"),
 
 ])
 
