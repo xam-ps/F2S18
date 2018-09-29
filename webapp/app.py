@@ -6,6 +6,7 @@ from dash.dependencies import State
 import pandas as pd
 import flask
 import os
+import distance
 
 # ECU Gadget imports begin
 import ecu_gadget as ec
@@ -89,10 +90,11 @@ index_page = html.Div(children=[
                 html.Div('Vehicles in Maintenance:'),
                 html.Div('5', className='mainNumber')
             ], className='maintenance smallBox'),
-            html.Div([
-                html.Div('Ø KM per car and day:'),
-                html.Div('267', className='mainNumber')
-            ], className='maintenance smallBox'),
+            dcc.Link(
+                html.Div([
+                    html.Div('Ø KM per car and day:'),
+                    html.Div('155,4', className='mainNumber')
+                ], className='maintenance smallBox'), href='/km'),
             html.Div([
                 html.Div('Ø fuel consumption (l/100km):'),
                 html.Div('8,7', className='mainNumber')
@@ -184,6 +186,48 @@ turbo = html.Div([
               html.Div(turbo.get_turbo_detail(df), className='detail1'),
               html.Div(turbo.get_turbo_detail2(df), className='details2')
               ], className='main'),
+])
+
+km = html.Div([
+    html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
+    html.Link(rel='shortcut icon', href='static/favicon.ico'),
+
+    html.Div([
+        dcc.Link(html.Img(src='static/mechPandaProfile.png',
+                          height='40', width='40', className='accountPic'), href='/'),
+        html.P('Mechanic Panda', className='accountName'),
+        html.Img(src='static/user.png',
+                 height='40', width='40', className='userPic'),
+        html.P('Adam Smith', className='userName'),
+    ], className="account"),
+
+    html.Div([
+        html.Div([
+            html.P('Time Range'),
+            dcc.RangeSlider(
+                count=1,
+                min=-60,
+                max=0,
+                step=1.0,
+                marks={
+                    -60: '-60 Days',
+                    -40: '-40 Days',
+                    -20: '-20 Days',
+                    0: 'today'
+                },
+                value=[-5, 0]
+            )], className='slider'),
+        html.Div(
+            dcc.Input(
+                placeholder='Search (VIN, Brand, etc.)',
+                type='text',
+                value=''
+            ), className='search'),
+    ], className='header'),
+
+    html.Div([html.P('Average distance per day', className='turboHeading'),
+              html.Div(distance.get_avg_distance_chart())
+              ]),
 ])
 
 ecu = html.Div([
@@ -286,13 +330,13 @@ def get_ecu_hist():
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
     if '/ecu_hist' in str(pathname):
-        print('returning ecu_hist')
         return get_ecu_hist()
     elif '/ecu' in str(pathname):
-        print("returning ecu")
         return ecu
-    elif '/turbo' in str(pathname):
-        return turbo
+    elif '/fuel' in str(pathname):
+        return fuel
+    elif '/km' in str(pathname):
+        return km
     else:
         return index_page
 
