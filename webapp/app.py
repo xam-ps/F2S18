@@ -228,15 +228,6 @@ ecu = html.Div([
             )
         ], className="form-inline"),
         ehc.get_scatter_plot(ecu_temperature_gadget),
-        '''
-        html.Div([
-            html.Div([
-                html.Div([
-                    ehc.get_hist(ecu_temperature_gadget)
-                ], className="modal-content")
-            ], className="modal-dialog")
-        ],className="model fade", id="myModal")
-        '''
     ], className='main'),
 ])
 
