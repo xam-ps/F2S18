@@ -1,43 +1,100 @@
 import dash_core_components as dcc
 import pandas as pd
 import numpy as np
+import plotly.graph_objs as go
 
 
-#df = pd.read_csv("turbo.csv")
-#df['datetime'] = pd.to_datetime(df.datetime)
 
-def get_turbo_alerts(df):
-    df_grouped_turbine_speed = df.groupby([df.vehicle_number, df.datetime.dt.year, df.datetime.dt.month, df.datetime.dt.day, df.datetime.dt.hour, df.datetime.dt.minute]).agg({'turbo_turbine_speed':'max'})
-    critical_turbine_speeds = df_grouped_turbine_speed[df_grouped_turbine_speed.turbo_turbine_speed > 235000].turbo_turbine_speed.unique()
-    critical_turbine_speeds = [str(x) for x in critical_turbine_speeds]
+def get_turbo_detail(df, pathname = None):
     
-    df = df[df.turbo_turbine_speed.astype(str).isin(critical_turbine_speeds)]
-    df.turbo_turbine_speed = round(df.turbo_turbine_speed)
-    
+    timestamp = 1533319533
+    # vin = # doesn't matter
 
-    graph = dcc.Graph(
-        id = "alert-table",
-        figure = {
-            'data': [
-                {
-                'header': dict(values=['Time', 'VIN', 'Turbine Speed'],fill = dict(color='#C2D4FF'),
-                align = ['left'] * 5),
-                'cells': dict(values=[df.datetime, df.vehicle_number, df.turbo_turbine_speed]),
-                'type': 'table'
-                }
-            ]
-        }
+    layout = go.Layout(
+    title='Turbo',
+    yaxis=dict(
+        title='Turbine Speed'
+    ),
+    yaxis2=dict(
+        overlaying='y',
+        side='right'
+    ),
+    yaxis3=dict(
+        overlaying='y',
+        side='right'
+    ),
+        yaxis4=dict(
+        overlaying='y',
+        side='right'
+    ),
+        yaxis5=dict(
+        overlaying='y',
+        side='right'
+    )
     )
 
+    df_critical = df[(df.timestamp_ms > timestamp - 30.0) & (df.timestamp_ms < timestamp + 30.0)]
 
-    return graph
-    
+    trace1=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_turbine_speed,  name = "Turbine Speed")
+    trace2=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_waste_gate_position, yaxis='y2', name = "Waste Gate Pos")
+    trace3=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_temperature_before_turbine, yaxis='y3', name="Temp. before")
+    trace4=go.Scatter(x=df_critical.datetime, y=df_critical.engine_speed, yaxis='y4', name="Engine Speed")
+
+    data=go.Data([trace1, trace2, trace3, trace4])
+    figure=go.Figure(data=data,layout=layout)
+
+    return dcc.Graph(
+        id='turbodetails1',
+        figure={
+        'data': data,
+        'layout': layout
+    })
 
 
-def get_turbo_detail(df):
 
-    return None
+def get_turbo_detail2(df):
+
+    timestamp = 1533319533
+
+    layout = go.Layout(
+    title='Driver Actions',
+    yaxis=dict(
+        title='Engine Speed'
+    ),
+    yaxis2=dict(
+        overlaying='y',
+        side='right'
+    ),
+    yaxis3=dict(
+        overlaying='y',
+        side='right'
+    ),
+        yaxis4=dict(
+        overlaying='y',
+        side='right'
+    ),
+        yaxis5=dict(
+        overlaying='y',
+        side='right'
+    )
+    )
+    df_critical = df[(df.timestamp_ms > timestamp - 30.0) & (df.timestamp_ms < timestamp + 30.0)]
+
+    # trace1=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_turbine_speed, mode = 'markers', name = "Turbine Speed")
+    trace2=go.Scatter(x=df_critical.datetime, y=df_critical.engine_speed, name="Engine Spd")
+    trace3=go.Scatter(x=df_critical.datetime, y=df_critical.vehicle_speed, yaxis='y3', name="Vehicle Speed")
+
+    trace4=go.Scatter(x=df_critical.datetime, y=df_critical.pedal_position, yaxis='y4', name = "Pedal Position")
+    trace5=go.Scatter(x=df_critical.datetime, y=df_critical.gear_engaged, fill='tozeroy',
+            opacity='0.01', line=dict(color='rgb(184, 187, 193)'), yaxis='y5', name = "Gear")
 
 
+    data=go.Data([trace2, trace3, trace4, trace5])
+    figure=go.Figure(data=data,layout=layout)
 
-
+    return dcc.Graph(
+            id='turbodetails2',
+            figure={
+            'data': data,
+            'layout': layout
+        })

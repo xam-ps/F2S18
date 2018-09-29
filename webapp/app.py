@@ -174,7 +174,8 @@ turbo = html.Div([
     ], className='header'),
 
     html.Div([html.P('Turbo drilldown'),
-              # Put in Turbo drilldown code here
+                html.Div(turbo.get_turbo_detail(df), className='detail1'),
+                html.Div(turbo.get_turbo_detail2(df), className='details2')
               ], className='main'),
 ])
 
