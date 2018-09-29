@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import State
 import pandas as pd
 import flask
 import os
@@ -227,58 +228,60 @@ ecu = html.Div([
         ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temp. (Max)')
     ]),
     dcc.Link(
-        html.Button('Filter', id='filter', style={'margin-left': '5'})
+        html.Button('Filter', id='filter', style={'color':'white', 'background-color':'steelblue','height': '30','width': '70', 'margin': '9'})
         , href='/ecu_hist'
     ),
     ehc.get_scatter_plot(ecu_temperature_gadget)
     ], className='main'),
 ])
 
-ecu_hist = html.Div([
-    html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
-    html.Link(rel='shortcut icon', href='static/favicon.ico'),
+def get_ecu_hist():
+    ecu_hist = html.Div([
+        html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
+        html.Link(rel='shortcut icon', href='static/favicon.ico'),
 
-    html.Div([
-        dcc.Link(html.Img(src='static/mechPandaProfile.png',
-            height='40', width='40', className='accountPic'), href='/'),
-        html.P('Mechanic Panda', className='accountName'),
-        html.Img(src='static/user.png',
-                 height='40', width='40', className='userPic'),
-        html.P('Adam Smith', className='userName'),
-    ], className="account"),
-
-    html.Div([
         html.Div([
-            html.P('Time Range'),
-            dcc.RangeSlider(
-                count=1,
-                min=-60,
-                max=0,
-                step=1.0,
-                marks={
-                    -60: '-60 Days',
-                    -40: '-40 Days',
-                    -20: '-20 Days',
-                    0: 'today'
-                },
-                value=[-5, 0]
-            )], className='slider'),
-        html.Div(
-            dcc.Input(
-                placeholder='Search (VIN, Brand, etc.)',
-                type='text',
-                value=''
-            ), className='search'),
-    ], className='header'),
-    ehc.get_hist(ecu_temperature_gadget)
-])
+            dcc.Link(html.Img(src='static/mechPandaProfile.png',
+                height='40', width='40', className='accountPic'), href='/'),
+            html.P('Mechanic Panda', className='accountName'),
+            html.Img(src='static/user.png',
+                     height='40', width='40', className='userPic'),
+            html.P('Adam Smith', className='userName'),
+        ], className="account"),
+
+        html.Div([
+            html.Div([
+                html.P('Time Range'),
+                dcc.RangeSlider(
+                    count=1,
+                    min=-60,
+                    max=0,
+                    step=1.0,
+                    marks={
+                        -60: '-60 Days',
+                        -40: '-40 Days',
+                        -20: '-20 Days',
+                        0: 'today'
+                    },
+                    value=[-5, 0]
+                )], className='slider'),
+            html.Div(
+                dcc.Input(
+                    placeholder='Search (VIN, Brand, etc.)',
+                    type='text',
+                    value=''
+                ), className='search'),
+        ], className='header'),
+        ehc.get_hist(ecu_temperature_gadget)
+    ])
+    return ecu_hist
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
     if '/ecu_hist' in str(pathname):
         print('returning ecu_hist')
-        return ecu_hist
+        return get_ecu_hist()
     elif '/ecu' in str(pathname):
         print("returning ecu")
         return ecu
