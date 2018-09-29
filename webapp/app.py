@@ -226,9 +226,9 @@ ecu = html.Div([
     html.Div([
         ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temp. (Min)'),
         ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temp. (Max)')
-    ]),
+    ], style={'margin': '9', 'display' : 'inline'}),
     dcc.Link(
-        html.Button('Filter', id='filter', style={'color':'white', 'background-color':'steelblue','height': '30','width': '70', 'margin': '9'})
+        html.Button('Filter', id='filter', style={'color':'white','background-color':'steelblue','height': '30','width': '70', 'margin': '9'})
         , href='/ecu_hist'
     ),
     ehc.get_scatter_plot(ecu_temperature_gadget)
