@@ -148,3 +148,8 @@
 .rc-slider-track{
     background-color: #057855 !important;
 }
+
+.turboHeading{
+    margin: 20px 0px 5px 30px;
+    font-size: 28px;
+}

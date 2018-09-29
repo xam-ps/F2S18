@@ -160,7 +160,7 @@ turbo = html.Div([
             ), className='search'),
     ], className='header'),
 
-    html.Div([html.P('Turbo drilldown'),
+    html.Div([html.P('Turbo drilldown', className='turboHeading'),
                 html.Div(turbo.get_turbo_detail(df), className='detail1'),
                 html.Div(turbo.get_turbo_detail2(df), className='details2')
               ], className='main'),
@@ -203,7 +203,7 @@ ecu = html.Div([
             ), className='search'),
     ], className='header'),
 
-    html.Div([html.P('ECU History View'),
+    html.Div([html.P('ECU History View', className='turboHeading'),
         # Put in ECU drilldown code here
         html.Form([
             html.Div([
