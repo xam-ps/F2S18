@@ -5,7 +5,8 @@ def get_text_field(ecu_temperature_gadget, ele_id, ele_placeholder):
         id = ele_id,
         placeholder=ele_placeholder,
         type='text',
-        value='')
+        value='',
+        style={'margin-left': '5'})
 
 def get_scatter_plot(ecu_temperature_gadget, convert=False):
     return dcc.Graph(
@@ -45,7 +46,7 @@ def get_pie_chart(ecu_temperature_gadget, start = None, end = None):
                 'legend': dict(orientation="h")
             }
         },
-        style={'width': '350', 'height': '350'}
+        style={'width': '40%', 'display':'inline-block'}
     )
 
 def get_alert_table(ecu_temperature_gadget, start = None, end = None):

@@ -12,14 +12,14 @@ ecu_temperature_gadget = ecu_gadget.EcuTemperatureGadget()
 
 page_layout_ecu = html.Div([
     dcc.Link('Home', href='/'),
-    html.P(children='ECU Temperature Range'),
-    html.Div([
-        eh.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temperature (Min)'),
-        html.Br(),
-        eh.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temperature (Max)'),
-    ], style= {'width': '10%', 'display': 'inline-block', 'margin-bottom': '10'}),
-    html.Br(),
-    html.Button('Filter', id='filter'),
+    html.Form([
+        html.Div([
+            html.P(children='ECU Temperature Range'),
+            eh.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temperature (Min)'),
+            eh.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temperature (Max)')
+        ], className="form-group"),
+        html.Button('Filter', id='filter')
+    ], className="form-inline"),
     eh.get_scatter_plot(ecu_temperature_gadget),
     html.Div(id='container'),
     html.Div(dcc.Graph(id='empty', figure={'data': []}), style={'display': 'none'})

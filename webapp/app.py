@@ -19,8 +19,11 @@ df['datetime'] = pd.to_datetime(df.datetime)
 
 
 # ECU Gadget imports end
-external_stylesheets = ['static/style.css']
+external_stylesheets = ['static/style.css', "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
+                    "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+for css in external_stylesheets:
+    app.css.append_css({"external_url": css})
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div([
@@ -78,23 +81,65 @@ index_page = html.Div(children=[
 
     html.Div([
         html.Div([
+<<<<<<< HEAD
             dcc.Link(
                 html.Div(
                     # need to pass the start and end from the slider callback
                     ehc.get_pie_chart(ecu_temperature_gadget),
                     className='test'), href='/ecu'),
         ], className='charts'),
+=======
+            #Add the relevant data here
+            html.Div([
+                html.Div([
+                    html.Small("Turbine Speed: 235925.0 ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'}),
+                html.Div([
+                    html.Small("Turbine Speed: 238318.0  ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'}),
+                html.Div([
+                    html.Small("Turbine Speed: 242303.0  ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'})
+            ], className="row"),
+            html.Div([
+                html.Div([
+                    html.Small("ECU Temperature: 180 C ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'}),
+                html.Div([
+                    html.Small("ECU Temperature: 150 C ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-03 12:19:33 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-warning", style={'width': '70%'}),
+                html.Div([
+                    html.Small("ECU Temperature: 170 C ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-04 11:09:36 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138714", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'})
+            ], className="row"),
+        ], className='col-12 col-md-4', style={'display':'inline-block'}),
+>>>>>>> ca47696984e3f9ad36da2bfd9de7ccd50d89c3ed
         html.Div([
-            html.Div(
-                # Replace this one for the upper sidebar widget
-                turbo.get_turbo_alerts(df),
-                className='upper'),
-            html.Div(
-                # Replace this one for the lower sidebar widget
-                ehc.get_alert_table(ecu_temperature_gadget),
-                className='lower'),
-        ], className='sidebar'),
-    ], className='main'),
+            html.Div([
+                dcc.Link(
+                    html.Div([
+                    #need to pass the start and end from the slider callback
+                    ehc.get_pie_chart(ecu_temperature_gadget)], style={'display':'inline'})
+                    , href='/ecu'
+                )
+            ], style={'display':'inline'}),
+            html.Div([
+                ehc.get_pie_chart(ecu_temperature_gadget)
+            ], style={'display':'inline'})
+        ], className = "col-12 col-md-8", style={"display":"inline"})
+    ], className="main"),
 
 ])
 
@@ -179,14 +224,13 @@ ecu = html.Div([
 
     html.Div([html.P('ECU History View'),
         # Put in ECU drilldown code here
-        html.P(children='ECU Temperature Range'),
-        html.Div([
-            ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temperature (Min)'),
-            html.Br(),
-            ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temperature (Max)'),
-        ], style= {'width': '10%', 'display': 'inline-block', 'margin-bottom': '10'}),
-        html.Br(),
-        html.Button('Filter', id='filter'),
+        html.Form([
+            html.Div([
+                ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temp. (Min)'),
+                ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temp. (Max)')
+            ], className="form-group"),
+            html.Button('Filter', id='filter', style={'margin-left': '5'})
+        ], className="form-inline"),
         ehc.get_scatter_plot(ecu_temperature_gadget),
         html.Div(id='container'),
         html.Div(dcc.Graph(id='empty', figure={'data': []}), style={'display': 'none'})
