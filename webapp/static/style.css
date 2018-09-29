@@ -127,6 +127,10 @@
     font-size: 22px;
 }
 
+.notifications {
+    margin-top: 15px !important;
+}
+
 .alert {
     width: calc(100% - 20px);
     margin: 5px;

@@ -23,8 +23,10 @@ external_stylesheets = ['static/style.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 for css in external_stylesheets:
     app.css.append_css({"external_url": css})
-app.scripts.append_script({"external_url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"})
-app.scripts.append_script({"external_url": "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"})
+app.scripts.append_script(
+    {"external_url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"})
+app.scripts.append_script(
+    {"external_url": "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"})
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div([
@@ -49,7 +51,7 @@ index_page = html.Div(children=[
 
     html.Div([
         dcc.Link(html.Img(src='static/mechPandaProfile.png',
-            height='40', width='40', className='accountPic'), href='/'),
+                          height='40', width='40', className='accountPic'), href='/'),
         html.P('Mechanic Panda', className='accountName'),
         html.Img(src='static/user.png',
                  height='40', width='40', className='userPic'),
@@ -106,31 +108,31 @@ index_page = html.Div(children=[
                     className='test'), href='/ecu'),
         ], className='charts'),
         html.Div([
-            html.P('Alerts (6):', className='alertsHeading'),
+            html.P('Alerts (5):', className='alertsHeading'),
             html.Div([
                 dcc.Link(
                     html.Div([
                         html.Small("Vehicle: VF1RFA00958456258")
-                    ], className="alert alert-danger")
-                    , href='/turbo'),
+                    ], className="alert alert-danger"), href='/turbo'),
                 dcc.Link(
                     html.Div([
                         html.Small("Vehicle: VF1RFA00851236548")
                     ], className="alert alert-danger"),
-                href='/turbo'),
+                    href='/turbo'),
                 dcc.Link(
                     html.Div([
                         html.Small("Vehicle: VF1RFA00951485624")
                     ], className="alert alert-danger"),
-                href='/turbo'),
-            ], className="row"),
-            html.Div([
+                    href='/turbo'),
                 html.Div([
                     html.Small("Vehicle: VF1RFA00357138740")
                 ], className="alert alert-danger"),
                 html.Div([
                     html.Small("Vehicle: VF1RFA00357138714")
                 ], className="alert alert-danger"),
+            ], className="row"),
+            html.P('Notifications (1):', className='alertsHeading notifications'),
+            html.Div([
                 html.Div([
                     html.Small("Vehicle: VF1RFA00841247845")
                 ], className="alert alert-warning"),
@@ -146,7 +148,7 @@ turbo = html.Div([
 
     html.Div([
         dcc.Link(html.Img(src='static/mechPandaProfile.png',
-            height='40', width='40', className='accountPic'), href='/'),
+                          height='40', width='40', className='accountPic'), href='/'),
         html.P('Mechanic Panda', className='accountName'),
         html.Img(src='static/user.png',
                  height='40', width='40', className='userPic'),
@@ -178,8 +180,8 @@ turbo = html.Div([
     ], className='header'),
 
     html.Div([html.P('Turbo drilldown', className='turboHeading'),
-                html.Div(turbo.get_turbo_detail(df), className='detail1'),
-                html.Div(turbo.get_turbo_detail2(df), className='details2')
+              html.Div(turbo.get_turbo_detail(df), className='detail1'),
+              html.Div(turbo.get_turbo_detail2(df), className='details2')
               ], className='main'),
 ])
 
@@ -189,7 +191,7 @@ ecu = html.Div([
 
     html.Div([
         dcc.Link(html.Img(src='static/mechPandaProfile.png',
-            height='40', width='40', className='accountPic'), href='/'),
+                          height='40', width='40', className='accountPic'), href='/'),
         html.P('Mechanic Panda', className='accountName'),
         html.Img(src='static/user.png',
                  height='40', width='40', className='userPic'),
@@ -221,16 +223,17 @@ ecu = html.Div([
     ], className='header'),
 
     html.Div([html.P('ECU History View', className='turboHeading'),
-    # Put in ECU drilldown code here
-    html.Div([
-        ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temp. (Min)'),
-        ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temp. (Max)')
-    ]),
-    dcc.Link(
-        html.Button('Filter', id='filter', style={'margin-left': '5'})
-        , href='/ecu_hist'
+              # Put in ECU drilldown code here
+              html.Div([
+                  ehc.get_text_field(ecu_temperature_gadget,
+                                     'low', 'ECU Temp. (Min)'),
+                  ehc.get_text_field(ecu_temperature_gadget,
+                                     'high', 'ECU Temp. (Max)')
+              ]),
+              dcc.Link(
+        html.Button('Filter', id='filter', style={'margin-left': '5'}), href='/ecu_hist'
     ),
-    ehc.get_scatter_plot(ecu_temperature_gadget)
+        ehc.get_scatter_plot(ecu_temperature_gadget)
     ], className='main'),
 ])
 
@@ -240,7 +243,7 @@ ecu_hist = html.Div([
 
     html.Div([
         dcc.Link(html.Img(src='static/mechPandaProfile.png',
-            height='40', width='40', className='accountPic'), href='/'),
+                          height='40', width='40', className='accountPic'), href='/'),
         html.P('Mechanic Panda', className='accountName'),
         html.Img(src='static/user.png',
                  height='40', width='40', className='userPic'),
@@ -273,6 +276,7 @@ ecu_hist = html.Div([
     ehc.get_hist(ecu_temperature_gadget)
 ])
 
+
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
@@ -287,6 +291,7 @@ def display_page(pathname):
     else:
         return index_page
 
+
 @app.callback(
     dash.dependencies.Output('container', 'children'),
     [dash.dependencies.Input('low', 'value'),
@@ -296,28 +301,29 @@ def update_output(low, high):
         return
     df_out, df_norm = ecu_temperature_gadget.filter_data(int(low), int(high))
     graph = dcc.Graph(
-            id='barviz',
-            figure={
-                'data': [{
-                    'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
-                    'y': [df_out['Vehicle_Speed'].median(), df_out['Engine_Speed'].median(),
-                            df_out['Fuel_Pressure'].mean(), df_out['Engine_Inlet_Temperture'].mean()],
-                    'type': 'bar', 'name' : 'Outlier ECU Temperature'
-                    },
-                    {
-                        'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
-                        'y': [df_norm['Vehicle_Speed'].median(), df_norm['Engine_Speed'].median(),
-                                df_norm['Fuel_Pressure'].mean(), df_norm['Engine_Inlet_Temperture'].mean()],
-                        'type': 'bar', 'name' : 'Normal ECU Temperature'
-                    }
-                ],
-                'layout': {
-                    'title': 'Outlier Parameters vs Normal Parameters',
-                    'barmode': 'group'
-                }
+        id='barviz',
+        figure={
+            'data': [{
+                'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                'y': [df_out['Vehicle_Speed'].median(), df_out['Engine_Speed'].median(),
+                      df_out['Fuel_Pressure'].mean(), df_out['Engine_Inlet_Temperture'].mean()],
+                'type': 'bar', 'name': 'Outlier ECU Temperature'
+            },
+                {
+                'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                'y': [df_norm['Vehicle_Speed'].median(), df_norm['Engine_Speed'].median(),
+                      df_norm['Fuel_Pressure'].mean(), df_norm['Engine_Inlet_Temperture'].mean()],
+                'type': 'bar', 'name': 'Normal ECU Temperature'
             }
-        )
+            ],
+            'layout': {
+                'title': 'Outlier Parameters vs Normal Parameters',
+                'barmode': 'group'
+            }
+        }
+    )
     return html.Div(graph)
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
