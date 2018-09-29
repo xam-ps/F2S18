@@ -69,3 +69,29 @@ def get_alert_table(ecu_temperature_gadget, start = None, end = None):
         },
         style={'width': '700', 'height' : '400'}
     )
+
+def get_hist(ecu_temperature_gadget):
+    print('get_hist called')
+    df_out, df_norm = ecu_temperature_gadget.filter_data(90, 100)
+    return dcc.Graph(
+            id='barviz',
+            figure={
+                'data': [{
+                    'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                    'y': [df_out['Vehicle_Speed'].median(), df_out['Engine_Speed'].median(),
+                            df_out['Fuel_Pressure'].mean(), df_out['Engine_Inlet_Temperture'].mean()],
+                    'type': 'bar', 'name' : 'Outlier ECU Temperature'
+                    },
+                    {
+                        'x': ['Median Vehicle Speed', 'Median Engine Speed', 'Avg. Fuel_Pressure', 'Avg. Engine_Inlet_Temperture'],
+                        'y': [df_norm['Vehicle_Speed'].median(), df_norm['Engine_Speed'].median(),
+                                df_norm['Fuel_Pressure'].mean(), df_norm['Engine_Inlet_Temperture'].mean()],
+                        'type': 'bar', 'name' : 'Normal ECU Temperature'
+                    }
+                ],
+                'layout': {
+                    'title': 'Outlier Parameters vs Normal Parameters',
+                    'barmode': 'group'
+                }
+            }
+        )
