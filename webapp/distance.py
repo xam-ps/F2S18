@@ -1,4 +1,5 @@
 import plotly.graph_objs as go
+import dash_core_components as dcc
 
 
 def get_avg_distance_chart():
