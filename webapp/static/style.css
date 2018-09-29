@@ -6,26 +6,49 @@
 
 .account {
     background: #ffa500;
-    width: 100px;
-    height: 110px;
-    float: left;
-    text-align: center;
-    border-right: 1px solid black;
+    width: 100%;
+    height: 70px;
     border-bottom: 1px solid black;
     color: #fff;
-    position: absolute;
+    position: relative;
 }
 
-.account img {
+.account .accountPic {
     width: 60px;
     height: 60px;
-    padding-top: 5px;
+    padding: 5px 5px 5px 10px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.account .userPic {
+    width: 40px;
+    height: 40px;
+    padding: 10px 24px 5px 5px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.account .accountName {
+    position: absolute;
+    left: 85px;
+    font-size: 25px;
+    line-height: 68px;
+}
+
+.account .userName {
+    position: absolute;
+    right: 10px;
+    top: 52px;
+    font-size: 10px;
+    line-height: 12px;
 }
 
 .header {
-    width: calc(100% - 101px);
-    height: 110px;
-    float: right;
+    width: 100%;
+    height: 70px;
 }
 
 .header .slider {

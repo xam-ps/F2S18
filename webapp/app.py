@@ -43,14 +43,18 @@ STATIC_PATH = os.path.join(os.path.dirname(
 def serve_static(resource):
     return flask.send_from_directory(STATIC_PATH, resource)
 
+
 index_page = html.Div(children=[
     html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
     html.Link(rel='shortcut icon', href='static/favicon.ico'),
 
     html.Div([
-        html.Img(src='static/mechPandaProfile.png',
-                 height='40', width='40', className='accountPic'),
-        html.P('Mechanic Panda', className='accountName')
+        dcc.Link(html.Img(src='static/mechPandaProfile.png',
+            height='40', width='40', className='accountPic'), href='/'),
+        html.P('Mechanic Panda', className='accountName'),
+        html.Img(src='static/user.png',
+                 height='40', width='40', className='userPic'),
+        html.P('Adam Smith', className='userName'),
     ], className="account"),
 
     html.Div([
@@ -133,13 +137,16 @@ index_page = html.Div(children=[
 ])
 
 turbo = html.Div([
-        html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
+    html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
     html.Link(rel='shortcut icon', href='static/favicon.ico'),
 
     html.Div([
-        html.Img(src='static/mechPandaProfile.png',
-                 height='40', width='40', className='accountPic'),
-        html.P('Mechanic Panda', className='accountName')
+        dcc.Link(html.Img(src='static/mechPandaProfile.png',
+            height='40', width='40', className='accountPic'), href='/'),
+        html.P('Mechanic Panda', className='accountName'),
+        html.Img(src='static/user.png',
+                 height='40', width='40', className='userPic'),
+        html.P('Adam Smith', className='userName'),
     ], className="account"),
 
     html.Div([
@@ -167,18 +174,21 @@ turbo = html.Div([
     ], className='header'),
 
     html.Div([html.P('Turbo drilldown'),
-        # Put in Turbo drilldown code here
-    ], className='main'),
+              # Put in Turbo drilldown code here
+              ], className='main'),
 ])
 
 ecu = html.Div([
-        html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
+    html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
     html.Link(rel='shortcut icon', href='static/favicon.ico'),
 
     html.Div([
-        html.Img(src='static/mechPandaProfile.png',
-                 height='40', width='40', className='accountPic'),
-        html.P('Mechanic Panda', className='accountName')
+        dcc.Link(html.Img(src='static/mechPandaProfile.png',
+            height='40', width='40', className='accountPic'), href='/'),
+        html.P('Mechanic Panda', className='accountName'),
+        html.Img(src='static/user.png',
+                 height='40', width='40', className='userPic'),
+        html.P('Adam Smith', className='userName'),
     ], className="account"),
 
     html.Div([
@@ -235,11 +245,11 @@ ecu_hist = html.Div([
 ])
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
-    [dash.dependencies.Input('url', 'pathname')])
+              [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/ecu':
+    if '/ecu' in str(pathname):
         return ecu
-    elif pathname == '/turbo':
+    elif '/turbo' in str(pathname):
         return turbo
     elif pathname == '/ecu_hist':
         return ecu_hist
