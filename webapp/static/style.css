@@ -8,9 +8,9 @@
     background: #ffa500;
     width: 100%;
     height: 70px;
-    border-bottom: 1px solid black;
     color: #fff;
     position: relative;
+    box-shadow: 0px -15px 20px 10px black;
 }
 
 .account .accountPic {
@@ -86,19 +86,59 @@
     flex-wrap: wrap;
     flex-wrap: space-evenly;
     align-content: space-start;
+    padding-left: 15px;
 }
 
 .main .charts>div {
+    width: calc(30% - 30px);
+    padding: 4px;
+    min-width: 350px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 0px 5px;
+}
+
+.main .charts>a {
     width: 30%;
     padding: 4px;
     min-width: 350px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+
 .main .sidebar {
-    width: 40%;
-    background: #333;
-    float: left;
+    width: 30%;
+    float: right;
     overflow: hidden;
+    max-width: 230px;
+    padding-right: 2px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-right: 10px;
+    padding-top: 10px;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #000;
+}
+
+.alert {
+    width: calc(100% - 20px);
+    margin: 5px;
+}
+
+.alert-danger {
+    background: #ff2d376b;
+    border: 1px solid #ff2d37;
+    color: #000;
+    padding: 5px;
+}
+
+.alert-warning {
+    background: #00a5dc79;
+    border: 1px solid #00a5dc;
+    color: #000;
+    padding: 5px;
 }
 
 .rc-slider-handle{
