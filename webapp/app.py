@@ -23,6 +23,8 @@ external_stylesheets = ['static/style.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 for css in external_stylesheets:
     app.css.append_css({"external_url": css})
+app.scripts.append_script({"external_url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"})
+app.scripts.append_script({"external_url": "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"})
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div([
@@ -159,7 +161,8 @@ turbo = html.Div([
     ], className='header'),
 
     html.Div([html.P('Turbo drilldown'),
-              # Put in Turbo drilldown code here
+                html.Div(turbo.get_turbo_detail(df), className='detail1'),
+                html.Div(turbo.get_turbo_detail2(df), className='details2')
               ], className='main'),
 ])
 
@@ -207,14 +210,18 @@ ecu = html.Div([
                 ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temp. (Min)'),
                 ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temp. (Max)')
             ], className="form-group"),
-            html.Button('Filter', id='filter', style={'margin-left': '5'})
+            dcc.Link(
+                html.Button('Filter', id='filter', style={'margin-left': '5'}, className="btn btn-info btn-lg")
+                , href='/ecu_hist'
+            )
         ], className="form-inline"),
         ehc.get_scatter_plot(ecu_temperature_gadget),
-        html.Div(id='container'),
-        html.Div(dcc.Graph(id='empty', figure={'data': []}), style={'display': 'none'})
     ], className='main'),
 ])
 
+ecu_hist = html.Div([
+    ehc.get_hist(ecu_temperature_gadget)
+])
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
@@ -223,6 +230,8 @@ def display_page(pathname):
         return ecu
     elif '/turbo' in str(pathname):
         return turbo
+    elif pathname == '/ecu_hist':
+        return ecu_hist
     else:
         return index_page
 
