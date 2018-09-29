@@ -204,34 +204,69 @@ ecu = html.Div([
     ], className='header'),
 
     html.Div([html.P('ECU History View', className='turboHeading'),
-        # Put in ECU drilldown code here
-        html.Form([
-            html.Div([
-                ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temp. (Min)'),
-                ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temp. (Max)')
-            ], className="form-group"),
-            dcc.Link(
-                html.Button('Filter', id='filter', style={'margin-left': '5'}, className="btn btn-info btn-lg")
-                , href='/ecu_hist'
-            )
-        ], className="form-inline"),
-        ehc.get_scatter_plot(ecu_temperature_gadget),
+    # Put in ECU drilldown code here
+    html.Div([
+        ehc.get_text_field(ecu_temperature_gadget, 'low', 'ECU Temp. (Min)'),
+        ehc.get_text_field(ecu_temperature_gadget, 'high', 'ECU Temp. (Max)')
+    ]),
+    dcc.Link(
+        html.Button('Filter', id='filter', style={'margin-left': '5'})
+        , href='/ecu_hist'
+    ),
+    ehc.get_scatter_plot(ecu_temperature_gadget)
     ], className='main'),
 ])
 
 ecu_hist = html.Div([
+    html.Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
+    html.Link(rel='shortcut icon', href='static/favicon.ico'),
+
+    html.Div([
+        dcc.Link(html.Img(src='static/mechPandaProfile.png',
+            height='40', width='40', className='accountPic'), href='/'),
+        html.P('Mechanic Panda', className='accountName'),
+        html.Img(src='static/user.png',
+                 height='40', width='40', className='userPic'),
+        html.P('Adam Smith', className='userName'),
+    ], className="account"),
+
+    html.Div([
+        html.Div([
+            html.P('Time Range'),
+            dcc.RangeSlider(
+                count=1,
+                min=-60,
+                max=0,
+                step=1.0,
+                marks={
+                    -60: '-60 Days',
+                    -40: '-40 Days',
+                    -20: '-20 Days',
+                    0: 'today'
+                },
+                value=[-5, 0]
+            )], className='slider'),
+        html.Div(
+            dcc.Input(
+                placeholder='Search (VIN, Brand, etc.)',
+                type='text',
+                value=''
+            ), className='search'),
+    ], className='header'),
     ehc.get_hist(ecu_temperature_gadget)
 ])
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
-    if '/ecu' in str(pathname):
+    if '/ecu_hist' in str(pathname):
+        print('returning ecu_hist')
+        return ecu_hist
+    elif '/ecu' in str(pathname):
+        print("returning ecu")
         return ecu
     elif '/turbo' in str(pathname):
         return turbo
-    elif pathname == '/ecu_hist':
-        return ecu_hist
     else:
         return index_page
 
