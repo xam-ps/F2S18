@@ -94,7 +94,7 @@
     padding: 4px;
     min-width: 350px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin: 0px 5px;
+    margin: 5px 5px;
 }
 
 .main .charts>a {
@@ -102,6 +102,7 @@
     padding: 4px;
     min-width: 350px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px 5px;
 }
 
 
@@ -109,7 +110,7 @@
     width: 30%;
     float: right;
     overflow: hidden;
-    max-width: 230px;
+    max-width: 300px;
     padding-right: 2px;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -122,9 +123,14 @@
     color: #000;
 }
 
+.alertsHeading {
+    font-size: 22px;
+}
+
 .alert {
     width: calc(100% - 20px);
     margin: 5px;
+    font-size: 20px;
 }
 
 .alert-danger {
@@ -154,11 +160,19 @@
     font-size: 28px;
 }
 
-.maintenance{
-    height: 200px;
-    text-align: center;
+.mainNumber{
+    font-size: 60px;
 }
 
-.mainNumber{
-    font-size: 40px;
+.smallBox {
+    height: 240px;
+    text-align: center;
+    padding: 20px !important;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.maintenance {
+    height: 100px;
+    padding-top: 50px;
 }

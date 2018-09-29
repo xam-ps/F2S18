@@ -82,18 +82,31 @@ index_page = html.Div(children=[
 
     html.Div([
         html.Div([
+            html.Div([
+                html.Div('Vehicles in Maintenance:'),
+                html.Div('5', className='mainNumber')
+            ], className='maintenance smallBox'),
+            html.Div([
+                html.Div('Ø KM per car and day:'),
+                html.Div('267', className='mainNumber')
+            ], className='maintenance smallBox'),
+            html.Div([
+                html.Div('Ø fuel consumption (l/100km):'),
+                html.Div('8,7', className='mainNumber')
+            ], className='maintenance smallBox'),
+            html.Div([
+                html.Div('Max KM per Day:'),
+                html.Div('965', className='mainNumber'),
+                html.Div('27.09.2018', className='smallNumber')
+            ], className='maintenance smallBox'),
             dcc.Link(
                 html.Div(
                     # need to pass the start and end from the slider callback
                     ehc.get_pie_chart(ecu_temperature_gadget),
                     className='test'), href='/ecu'),
-            html.Div([
-                html.Div('Vehicles in Maintenance:'),
-                html.Div('5', className='mainNumber')
-            ], className='maintenance'),
         ], className='charts'),
         html.Div([
-            html.P('Alerts:'),
+            html.P('Alerts (6):', className='alertsHeading'),
             html.Div([
                 dcc.Link(
                     html.Div([
