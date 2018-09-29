@@ -94,7 +94,7 @@ index_page = html.Div(children=[
                 html.Div([
                     html.Div('Ø KM per car and day:'),
                     html.Div('155,4', className='mainNumber')
-                ], className='maintenance smallBox'), href='/km'),
+                ], className='km maintenance smallBox'), href='/km'),
             html.Div([
                 html.Div('Ø fuel consumption (l/100km):'),
                 html.Div('8,7', className='mainNumber')
@@ -333,10 +333,10 @@ def display_page(pathname):
         return get_ecu_hist()
     elif '/ecu' in str(pathname):
         return ecu
-    elif '/fuel' in str(pathname):
-        return fuel
     elif '/km' in str(pathname):
         return km
+    elif '/turbo' in str(pathname):
+        return turbo
     else:
         return index_page
 
