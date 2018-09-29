@@ -36,9 +36,9 @@ def get_turbo_detail(df, pathname = None):
     df_critical = df[(df.timestamp_ms > timestamp - 30.0) & (df.timestamp_ms < timestamp + 30.0)]
 
     trace1=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_turbine_speed,  name = "Turbine Speed")
-    trace2=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_waste_gate_position, yaxis='y2', name = "Waste Gate Pos")
-    trace3=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_temperature_before_turbine, yaxis='y3', name="Temp. before")
-    trace4=go.Scatter(x=df_critical.datetime, y=df_critical.engine_speed, yaxis='y4', name="Engine Speed")
+    trace2=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_waste_gate_position, yaxis='y2', visible='legendonly', name = "Waste Gate Pos")
+    trace3=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_temperature_before_turbine, visible='legendonly', yaxis='y3', name="Temp. before")
+    trace4=go.Scatter(x=df_critical.datetime, y=df_critical.maf_before_compressor, yaxis='y4',visible='legendonly', name="MAF b. Compr.")
 
     data=go.Data([trace1, trace2, trace3, trace4])
     figure=go.Figure(data=data,layout=layout)
@@ -81,12 +81,12 @@ def get_turbo_detail2(df):
     df_critical = df[(df.timestamp_ms > timestamp - 30.0) & (df.timestamp_ms < timestamp + 30.0)]
 
     # trace1=go.Scatter(x=df_critical.datetime, y=df_critical.turbo_turbine_speed, mode = 'markers', name = "Turbine Speed")
-    trace2=go.Scatter(x=df_critical.datetime, y=df_critical.engine_speed, name="Engine Spd")
-    trace3=go.Scatter(x=df_critical.datetime, y=df_critical.vehicle_speed, yaxis='y3', name="Vehicle Speed")
+    trace2=go.Scatter(x=df_critical.datetime, y=df_critical.engine_speed, name="Engine Speed")
+    trace3=go.Scatter(x=df_critical.datetime, y=df_critical.vehicle_speed, visible='legendonly', yaxis='y3', name="Vehicle Speed")
 
-    trace4=go.Scatter(x=df_critical.datetime, y=df_critical.pedal_position, yaxis='y4', name = "Pedal Position")
-    trace5=go.Scatter(x=df_critical.datetime, y=df_critical.gear_engaged, fill='tozeroy',
-            opacity=0.01, line=dict(color='rgb(184, 187, 193)'), yaxis='y5', name = "Gear")
+    trace4=go.Scatter(x=df_critical.datetime, y=df_critical.pedal_position, visible='legendonly', yaxis='y4', name = "Pedal Position")
+    trace5=go.Scatter(x=df_critical.datetime, y=df_critical.gear_engaged, visible='legendonly', fill='tozeroy',
+            opacity=0.5, line=dict(color='rgb(184, 187, 193)'), yaxis='y5', name = "Gear")
 
 
     data=go.Data([trace2, trace3, trace4, trace5])

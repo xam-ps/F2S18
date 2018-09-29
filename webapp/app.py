@@ -87,6 +87,10 @@ index_page = html.Div(children=[
                     # need to pass the start and end from the slider callback
                     ehc.get_pie_chart(ecu_temperature_gadget),
                     className='test'), href='/ecu'),
+            html.Div([
+                html.Div('Vehicles in Maintenance:'),
+                html.Div('5', className='mainNumber')
+            ], className='maintenance'),
         ], className='charts'),
         html.Div([
             html.P('Alerts:'),

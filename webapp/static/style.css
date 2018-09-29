@@ -153,3 +153,12 @@
     margin: 20px 0px 5px 30px;
     font-size: 28px;
 }
+
+.maintenance{
+    height: 200px;
+    text-align: center;
+}
+
+.mainNumber{
+    font-size: 40px;
+}
