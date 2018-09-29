@@ -45,7 +45,7 @@ def get_pie_chart(ecu_temperature_gadget, start = None, end = None):
                 'legend': dict(orientation="h")
             }
         },
-        style={'width': '40%'}
+        style={'width': '40%', 'display':'inline-block'}
     )
 
 def get_alert_table(ecu_temperature_gadget, start = None, end = None):

@@ -77,27 +77,24 @@ index_page = html.Div(children=[
 
     html.Div([
         html.Div([
-            html.Div([
-                dcc.Link(
-                    html.Div(
-                    #need to pass the start and end from the slider callback
-                    ehc.get_pie_chart(ecu_temperature_gadget))
-                    , href='/ecu'
-                )
-            ], style={'display':'inline'}),
-            html.Div([
-                ehc.get_pie_chart(ecu_temperature_gadget)
-            ], style={'display':'inline'})
-        ], className = "col-md-8"),
-        html.Div([
             #Add the relevant data here
             html.Div([
                 html.Div([
-                    html.Small("ECU Temperature: 180 C ", style={'display' : 'inline-block'}),
+                    html.Small("Turbine Speed: 235925.0 ", style={'display' : 'inline-block'}),
                     html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
                     html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
-                ], className="alert alert-warning", style={'width': '70 %'})
-            ]),
+                ], className="alert alert-danger", style={'width': '70%'}),
+                html.Div([
+                    html.Small("Turbine Speed: 238318.0  ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'}),
+                html.Div([
+                    html.Small("Turbine Speed: 242303.0  ", style={'display' : 'inline-block'}),
+                    html.Small("Timestamp: 2018-08-01 17:29:43 ", style={'display' : 'inline-block'}),
+                    html.Small("Vehicle: VF1RFA00357138740", style={'display' : 'inline-block'})
+                ], className="alert alert-danger", style={'width': '70%'})
+            ], className="row"),
             html.Div([
                 html.Div([
                     html.Small("ECU Temperature: 180 C ", style={'display' : 'inline-block'}),
@@ -114,8 +111,21 @@ index_page = html.Div(children=[
                     html.Small("Timestamp: 2018-08-04 11:09:36 ", style={'display' : 'inline-block'}),
                     html.Small("Vehicle: VF1RFA00357138714", style={'display' : 'inline-block'})
                 ], className="alert alert-danger", style={'width': '70%'})
-            ]),
-        ], className='col-md-4'),
+            ], className="row"),
+        ], className='col-12 col-md-4', style={'display':'inline-block'}),
+        html.Div([
+            html.Div([
+                dcc.Link(
+                    html.Div([
+                    #need to pass the start and end from the slider callback
+                    ehc.get_pie_chart(ecu_temperature_gadget)], style={'display':'inline'})
+                    , href='/ecu'
+                )
+            ], style={'display':'inline'}),
+            html.Div([
+                ehc.get_pie_chart(ecu_temperature_gadget)
+            ], style={'display':'inline'})
+        ], className = "col-12 col-md-8", style={"display":"inline"})
     ], className="main"),
 
 ])
